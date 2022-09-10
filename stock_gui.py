@@ -20,7 +20,7 @@ from sklearn.neural_network import MLPRegressor
 from sklearn import metrics
 tf.random.set_seed(7)
 
-st.title('Stock Forcasting using Deep Learning')
+st.title('Stock Prediction using Deep Learning')
 st.subheader('Select the method of input:')
 # Adding radio buttons for the user to choose between Uploading csv and getting stock data from the net 
 option = st.radio('Radio', ["Upload the data (.csv format)","Get data from the net"])
@@ -29,6 +29,7 @@ st.sidebar.title("Created By:")
 st.sidebar.subheader("Nikhilesh Sarangpure")
 # Adding an image from Unsplash to the side bar 
 st.sidebar.image("https://bit.ly/2RgH8BC", width=None)
+st.sidebar.markdown("Photo by Carlos Muza on Unsplash")
 # class for the deep learning models
 class stock_predict_DL:
     
@@ -37,9 +38,9 @@ class stock_predict_DL:
         # We are taking only the Open prices for predicting 
         data = comp_df.filter(['Open'])
         dataset = data.values
-        # We take 80% of the data for training and 20% for testing 
+        # We take 90% of the data for training and 10% for testing 
         st.subheader('How much percent of the data needs to be allocated for training?')
-        st.text('Default is set to 80')
+        st.text('Default is set to 90')
         perc_train = st.number_input('',step = 1,min_value=1, value = 80)
         training_data_len = int(np.ceil( len(dataset) * (perc_train/100)))
         # We are scaling the open prices to the range(0,1)
@@ -237,8 +238,8 @@ if option == "Get data from the net":
     # Sidebar
     st.sidebar.subheader('Query parameters')
     # User can choose the start date,the end date and the company's ticker whose data they want to train
-    start_date = st.sidebar.date_input("Start date", datetime.date(2015, 7, 1))
-    end_date = st.sidebar.date_input("End date", datetime.date(2022,7, 31))
+    start_date = st.sidebar.date_input("Start date", datetime.date(2012, 5, 18))
+    end_date = st.sidebar.date_input("End date", datetime.date(2021,3, 25))
     # Retrieving tickers data
     ticker_list = pd.read_csv('https://raw.githubusercontent.com/dataprofessor/s-and-p-500-companies/master/data/constituents_symbols.txt')
     tickerSymbol = st.sidebar.selectbox('Stock ticker', ticker_list) # Select ticker symbol
@@ -291,4 +292,3 @@ if(flag == "True"):
 
     if mopt == "Basic ANN":
         company_stock.basic_ann_model()
-
